@@ -1,34 +1,21 @@
 import "./Board.css";
-
+import { Slot } from "..";
 export type Choice = "X" | "O" | null;
 
 interface IBoardProps {
   list: Choice[];
-  onSlotClick:()=>void
+  onSlotClick: (index: number) => void;
 }
 
 export const Board = (props: IBoardProps) => {
   const slots = props.list.map((item, index) => (
-    <Slot onClickSlot={props.onSlotClick} preenchimento={item} corDeFundo="green" key={`slot-${index}`} />
+    <Slot
+      index={index}
+      onClickSlot={(slotIndex) => props.onSlotClick(slotIndex)}
+      preenchimento={item}
+      corDeFundo="green"
+      key={`slot-${index}`}
+    />
   ));
   return <div className="board">{slots}</div>;
-};
-
-
-interface ISlotProps {
-  preenchimento: string | null;
-  corDeFundo: string;
-  onClickSlot: ()=>void
-}
-
-const Slot = (props: ISlotProps) => {
-  const styleOptions = {
-    backgroundColor: props.corDeFundo,
-  };
-
-  return (
-    <div onClick={props.onClickSlot} className="slot" style={styleOptions}>
-      {props.preenchimento}
-    </div>
-  );
 };
